@@ -1,0 +1,20 @@
+.imgs_model_list{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.imgs_model_item{
+    margin: 10px 10px;
+    width: 90px;
+    height: 90px;
+    background-color: rgb(196, 233, 255);
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.return_button{
+    position: fixed !important;
+    right: 5px;
+    top: 350px;
+}

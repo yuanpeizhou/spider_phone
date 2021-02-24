@@ -1,0 +1,12 @@
+.imgs_img_list{
+    display: flex;
+}
+
+.imgs_head{
+    margin: 10px 0;
+}
+
+.imgs_paginate{
+    margin: 50px 0 !important;
+}
+
