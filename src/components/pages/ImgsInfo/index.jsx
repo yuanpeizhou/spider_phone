@@ -34,7 +34,7 @@ export default class ImgsInfo extends React.Component {
       const data = res.map((item , index) => {
         var temp = []
         temp['key'] = item.id
-        temp['url'] = 'http://192.168.6.98/book_spider/' + item.local_url
+        temp['url'] = item.local_url
         return temp
       })
 

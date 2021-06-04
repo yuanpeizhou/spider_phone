@@ -117,7 +117,7 @@ export default class ImgsList extends React.Component {
               {
                 item.img_list.map((img_item,img_index) => {
                   return <div key={index + img_index}>
-                    <img style={{width : '100px', margin : "5px 10px"}} src={'http://192.168.6.98/book_spider/' + img_item.local_url}></img>
+                    <img style={{width : '100px', margin : "5px 10px"}} src={img_item.local_url}></img>
                   </div>
                 })
               }
