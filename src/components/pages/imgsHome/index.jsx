@@ -7,33 +7,39 @@ export default class ImgsHome extends React.Component {
     this.state = {
       list : [
         {
-          name: '24fa',
-          path: '/imgs/list/1'
+          name: "taiav",
+          path: "/video/list/1",
+          website_id: 4
         },
         {
-          name: '颜控网',
-          path: '/yankong_imgs/list/1'
+          name: '24fa',
+          path: '/imgs/list/1',
+          website_id: 5
+        },
+        {
+          name: 'xchina',
+          path: '/imgs/list/1',
+          website_id: 3
+        },
+        {
+          name: '第一版主',
+          path: '/book/list/1',
+          website_id: 1
+        },
+        {
+          name: "第一版主2",
+          path: '/book/list/1',
+          website_id: 2
         }
-        // ,{
-        //   name : '1',
-        //   path: ''
-        // },{
-        //   name : '1',
-        //   path: ''
-        // },{
-        //   name : '1',
-        //   path: ''
-        // }
       ]
     };
   }
   componentDidMount(){
 
   }
-  goModel(path){
-    if(path){
-      this.props.history.push({pathname: path,query:{page: 1}})
-    }
+  goModel(item){
+    localStorage.setItem('website_id', item.website_id)
+    this.props.history.push({pathname: item.path,query:{page: 1}})
   }
 
   render() {
@@ -41,7 +47,7 @@ export default class ImgsHome extends React.Component {
       <div className="imgs_model_list">
         {
           this.state.list.map((item,index) => {
-            return <div className="imgs_model_item" key={index} onClick={this.goModel.bind(this,item.path)}>{item.name}</div>
+            return <div className="imgs_model_item" key={index} onClick={this.goModel.bind(this,item)}>{item.name}</div>
           })
         }
       </div>

@@ -1,0 +1,39 @@
+.book_list {
+    background-color: #fff;
+}
+.book_box {
+    padding: 5px;
+    border-bottom: 1px dotted #ddd;
+}
+
+.book_box_header {
+    display: flex;
+    justify-content: space-between;
+}
+.book_name {
+    max-width: 75%;
+    font-size: 17px;
+    color: #960;
+}
+.book_last_update_date {
+    font-size: 14px;
+    color: #999;
+}
+.book_box_foot {
+    margin-top: 12px;
+}
+.book_author {
+    font-size: 14px;
+    color: #999;
+}
+.book_words {
+    font-size: 14px;
+    margin-left: 10px;
+    color: #999;
+}
+
+.book_collect{
+    font-size: 14px;
+    margin-left: 10px;
+    color: #087ea4;  
+}

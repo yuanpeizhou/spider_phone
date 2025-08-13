@@ -38,3 +38,6 @@ code {
 @import './components/pages/Imgs/imgs_list.css';
 @import './components/pages/imgsHome/imgs_home.css';
 @import './components/pages/YankongImgs/index.css';
+@import './components/pages/Book/index.css';
+@import './components/pages/Chapter/index.css';
+@import './components/pages/Video/index.css';

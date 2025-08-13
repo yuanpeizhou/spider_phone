@@ -1,6 +1,6 @@
 import React from "react";
 
-import {getImgsInfo} from '../../../api';
+import {getImgsInfo, img_host} from '../../../api';
 
 
 export default class ImgsInfo extends React.Component {
@@ -27,29 +27,29 @@ export default class ImgsInfo extends React.Component {
       id : _this.props.match.params.id
     }
 
-    getImgsInfo('api/imgs/info','get',params,function(res){
+    getImgsInfo('imgs/info','get',params,function(res){
 
-      console.log(res);
-
-      const data = res.map((item , index) => {
+      const data = res.img_list.map((item , index) => {
         var temp = []
         temp['key'] = item.id
-        temp['url'] = item.local_url
+        temp['url'] = img_host + item.img_local_url
         return temp
       })
 
       _this.setState({
         list : data,
+        rose_name: res.rose_name
       });
     })
   }
   render() {
     return <div>
-        {this.state.list.map((item,index) => {
-          return <div key={index}>
-            <img style={{ margin: '16px 0',width : '100%' }} src={item.url}></img>
-          </div>
-        })}
+      <p className="rose_title">{this.state.rose_name}</p>
+      {this.state.list.map((item,index) => {
+        return <div key={index} style={{display:"flex", justifyContent:"center"}}>
+          <img style={{ margin: '16px 0',width : '90%', }} src={item.url} ></img>
+        </div>
+      })}
     </div>
   }
 };

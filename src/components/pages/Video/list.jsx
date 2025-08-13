@@ -1,9 +1,9 @@
 import React from "react";
 import { Pagination,Input,Button } from 'antd';
-import {getImgsList, img_host} from '../../../api';
+import {getVideoList, img_host} from '../../../api';
 
 const { Search } = Input;
-export default class ImgsList extends React.Component {
+export default class VideoList extends React.Component {
   constructor(props) {
 
     super(props);
@@ -41,7 +41,7 @@ export default class ImgsList extends React.Component {
   /**翻页 */
   changePage(current){
     console.log('跳转到',current)
-    this.props.history.push({pathname:'/imgs/list/' + current ,query:{page: current}})
+    this.props.history.push({pathname:'/video/list/' + current ,query:{page: current}})
     this.setState({
       current : current
     },function(){
@@ -50,9 +50,9 @@ export default class ImgsList extends React.Component {
     })
   }
   goInfo(id){
-    localStorage.setItem('img_page',this.state.current)
-    localStorage.setItem('img_keyword',this.state.searchData.keyword)
-    this.props.history.push({pathname:'/imgs/info' + '/' + id ,query:{id: id}})
+    // localStorage.setItem('img_page',this.state.current)
+    // localStorage.setItem('img_keyword',this.state.searchData.keyword)
+    // this.props.history.push({pathname:'/imgs/info' + '/' + id ,query:{id: id}})
   }
   goBack(){
     this.props.history.push({pathname:'/'})
@@ -66,13 +66,14 @@ export default class ImgsList extends React.Component {
       website_id: localStorage.getItem('website_id'),
       keyword: this.state.searchData.keyword
     }
-    getImgsList(params,function(res){
+    getVideoList(params,function(res){
+        console.log(res)
       const data = res.data.map((item , index) => {
         var temp = []
         temp['key'] = item.id
-        temp['name'] = item.rose_name
-        temp['number'] = item.count
-        temp['img_list'] = item.img_list
+        temp['name'] = item.name
+        temp['cover'] = item.web_cover
+        temp['video_url'] = img_host + item.local_url
         return temp
       })
 
@@ -113,9 +114,11 @@ export default class ImgsList extends React.Component {
           />
         </div>
         {this.state.list.map((item,index) => {
-          return <div key={index} className="rose_box" onClick={this.goInfo.bind(this,item.key)}>
-            <h1 className="rose_name" onClick={this.goInfo.bind(this,item.key)}>{item.name}({item.number})</h1>
-            <div className="imgs_img_list">
+          return <div key={index} className="video_box" onClick={this.goInfo.bind(this,item.key)}>
+            <h1>{item.name}</h1>
+            <video src={item.video_url} poster={item.cover} className="video_item"  controls></video>
+            
+            {/* <div className="imgs_img_list">
               {
                 item.img_list.map((img_item,img_index) => {
                   return <div key={index + img_index} >
@@ -123,7 +126,7 @@ export default class ImgsList extends React.Component {
                   </div>
                 })
               }
-            </div>
+            </div> */}
           </div>
         })}
         <Pagination className="imgs_paginate" current={this.state.current} total={this.state.total} onChange={(current) => this.changePage(current)}/>

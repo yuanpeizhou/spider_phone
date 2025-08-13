@@ -10,3 +10,14 @@
     margin: 50px 0 !important;
 }
 
+.rose_box {
+    background-color: #fafafa;
+    width: 95%;
+    margin: 20px auto;
+    padding: 10px 0;
+}
+.rose_name {
+    color: #2440b3;
+    margin-left: 10px;
+}
+

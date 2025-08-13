@@ -2,8 +2,8 @@
 import axios from 'axios'
 
 const api_host_local = 'http://127.0.0.1/book_spider/public/'
-const api_host_company = 'http://192.168.6.98/book_spider/public/'
-export const img_host = 'http://192.168.6.98/book_spider/'
+const api_host_company = 'http://book_api.zhouyuanpei.top:8585/index.php/api/'
+export const img_host = 'http://source.zhouyuanpei.top:8585/'
 
 
 function httpRequest(url,method = 'get',params,charset,callback){
@@ -37,7 +37,7 @@ function httpRequest(url,method = 'get',params,charset,callback){
 
 /**获取套图列表 */
 export function getImgsList(params,callback,charset="utf-8"){
-  return httpRequest('api/imgs/list','get',params,charset,callback)
+  return httpRequest('imgs/list','get',params,charset,callback)
 }
 
 /**获取套图详情 */
@@ -54,4 +54,25 @@ export function getYankongImgsList(params,callback,charset="utf-8"){
 /**获取颜控网套图详情 */
 export function getYankongImgsInfo(params,callback,charset="utf-8"){
   return httpRequest('admin/yankongImgs/info','get',params,charset,callback)
+}
+
+export function getBookList(params, callback, charset="utf-8") {
+  return httpRequest('book/list','get',params,charset,callback)
+}
+
+export function getChapterList(params, callback, charset="utf-8") {
+  return httpRequest('book/info','get',params,charset,callback)
+}
+
+export function getChapterInfo(params, callback, charset="utf-8") {
+  return httpRequest('chapter/info','get',params,charset,callback)
+}
+
+export function getVideoList(params, callback, charset="utf-8") {
+  return httpRequest('video/list','get',params,charset,callback)
+}
+
+// 加入或取消收藏
+export function collectAction(params, callback, charset="utf-8") {
+  return httpRequest('collect','post',params,charset,callback)
 }

@@ -1,23 +1,21 @@
 import React from "react";
 import { Pagination,Input,Button } from 'antd';
-import {getImgsList, img_host} from '../../../api';
+import {getBookList} from '../../../api';
 
 const { Search } = Input;
-export default class ImgsList extends React.Component {
+export default class BookList extends React.Component {
   constructor(props) {
 
     super(props);
-    const storePage = localStorage.getItem('img_page')
-    const storeKeyword = localStorage.getItem('img_keyword')
-    const img_id = storePage ? storePage : this.props.match.params.page
+    const storePage = localStorage.getItem('book_page')
+    const storeKeyword = localStorage.getItem('book_keyword')
+    const current_page = storePage ? storePage : this.props.match.params.page
 
-    localStorage.removeItem('img_page')
-
-    console.log('接收页码',img_id)
+    console.log('接收页码',current_page)
 
     this.state = {
       list: [],
-      current: img_id ? img_id : 1,
+      current: current_page ? current_page : 1,
       pageSize : 10,
       total : 1,
       searchData: {
@@ -25,14 +23,12 @@ export default class ImgsList extends React.Component {
       }
     };
 
-    localStorage.removeItem('img_keyword')
+    localStorage.removeItem('book_page')
+    localStorage.removeItem('book_keyword')
 
-    // console.log(this.state.current)
     this.loadData = this.loadData.bind(this);
     this.changePage = this.changePage.bind(this)
-    this.changePage = this.changePage.bind(this)
     this.onSearch = this.onSearch.bind(this)
-    // this.goInfo = this.goInfo.bind(this)
   }
   componentDidMount(){
     console.log('当前页',this.state.current)
@@ -41,21 +37,26 @@ export default class ImgsList extends React.Component {
   /**翻页 */
   changePage(current){
     console.log('跳转到',current)
-    this.props.history.push({pathname:'/imgs/list/' + current ,query:{page: current}})
+    this.props.history.push({pathname:'/book/list/' + current ,query:{page: current}})
     this.setState({
       current : current
     },function(){
-      window.scrollTo({top: 0});
       this.loadData(current)
     })
   }
-  goInfo(id){
-    localStorage.setItem('img_page',this.state.current)
-    localStorage.setItem('img_keyword',this.state.searchData.keyword)
-    this.props.history.push({pathname:'/imgs/info' + '/' + id ,query:{id: id}})
+  goChapter(book_id){
+    localStorage.setItem('book_page',this.state.current)
+    localStorage.setItem('book_keyword',this.state.searchData.keyword)
+    localStorage.setItem('book_id', book_id)
+    localStorage.removeItem('chapter_page')
+    this.props.history.push({pathname:'/book/chapter/list/' + book_id ,query:{book_id: book_id}})
   }
   goBack(){
     this.props.history.push({pathname:'/'})
+  }
+  setCollect() {
+    localStorage.setItem('book_collect',localStorage.getItem('book_collect') == 1 ? 2 : 1)
+    this.loadData()
   }
   /*加载数据*/
   loadData(current = 1,pageSize = 10,isInit = true){
@@ -63,19 +64,21 @@ export default class ImgsList extends React.Component {
     const params = {
       page: current,
       limit : pageSize,
-      website_id: localStorage.getItem('website_id'),
-      keyword: this.state.searchData.keyword
+      keyword: this.state.searchData.keyword,
+      collect: localStorage.getItem('book_collect'),
+      website_id: localStorage.getItem('website_id')
     }
-    getImgsList(params,function(res){
+    getBookList(params,function(res){
       const data = res.data.map((item , index) => {
         var temp = []
         temp['key'] = item.id
-        temp['name'] = item.rose_name
-        temp['number'] = item.count
-        temp['img_list'] = item.img_list
+        temp['book_name'] = item.book_name
+        temp['author_name'] = item.author_name
+        temp['book_words'] = item.book_words
+        temp['collect'] = item.collect
+        temp['last_update_date'] = item.last_update_date
         return temp
       })
-
       _this.setState({
         list : data,
         current : res.current_page,
@@ -98,6 +101,7 @@ export default class ImgsList extends React.Component {
   render() {
     return  <div style={{ margin: '32px 0' }}>
         <div>
+          <Button className="collect_button" onClick={this.setCollect.bind(this)}>只看收藏</Button>
           <Button className="return_button" onClick={this.goBack.bind(this)}>返回</Button>
         </div>
         <div className="imgs_head">
@@ -113,16 +117,17 @@ export default class ImgsList extends React.Component {
           />
         </div>
         {this.state.list.map((item,index) => {
-          return <div key={index} className="rose_box" onClick={this.goInfo.bind(this,item.key)}>
-            <h1 className="rose_name" onClick={this.goInfo.bind(this,item.key)}>{item.name}({item.number})</h1>
-            <div className="imgs_img_list">
-              {
-                item.img_list.map((img_item,img_index) => {
-                  return <div key={index + img_index} >
-                    <img style={{width : '100px', margin : "5px 10px"}} src={img_host + img_item.img_local_url}></img>
-                  </div>
-                })
-              }
+          return <div key={index} className="book_list">
+            <div className="book_box" onClick={this.goChapter.bind(this,item.key)}>
+              <div className="book_box_header">
+                <span className="book_name">{item.book_name}</span>
+                <span className="book_last_update_date">{item.last_update_date}</span>                
+              </div>
+              <div className="book_box_foot">
+                <span className="book_author">作者：{item.author_name}</span>
+                <span className="book_words">字数：{item.book_words}</span>
+                <span className="book_collect">{item.collect == 2 ? '已收藏' : ''}</span>
+              </div>
             </div>
           </div>
         })}

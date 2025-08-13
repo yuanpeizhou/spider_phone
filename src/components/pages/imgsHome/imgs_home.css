@@ -15,6 +15,19 @@
 
 .return_button{
     position: fixed !important;
-    right: 5px;
-    top: 350px;
+    right: 60%;
+    bottom: 95px;
+}
+
+.collect_button{
+    position: fixed !important;
+    right: 30%;
+    bottom: 95px;
+}
+
+.rose_title {
+    margin-top: 30px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
 }

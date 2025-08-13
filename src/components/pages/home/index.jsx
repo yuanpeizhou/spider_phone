@@ -28,7 +28,7 @@ class Home extends React.Component {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Layout className="site-layout">
-          <Content style={{ margin: '0 16px' }}>
+          <Content>
             <Router /> 
           </Content>
           {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}

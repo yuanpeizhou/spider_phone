@@ -1,0 +1,32 @@
+.chapter_list {
+    background-color: #fff;
+}
+.chapter_box {
+    padding: 10px 5px;
+    border-bottom: 1px dotted #ddd;
+}
+.chapter_name{
+    color: #777;
+    font-size: 18px;
+}
+.chaptper_tool {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+.chapter_return {
+    margin-left: 5px;
+}
+.chaptper_page {
+    padding: 10px;
+    background-color: #f5f1e8;
+}
+.chpater_content {
+    overflow: hidden;
+}
+.chapter_content_name {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 5px 0;
+}

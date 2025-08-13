@@ -9,6 +9,10 @@ import ImgsInfo from '../src/components/pages/ImgsInfo/index'
 import ImgsHome from "../src/components/pages/imgsHome/index";
 import YankongImgsList from "./components/pages/YankongImgs/list";
 import YankongImgsInfo from "./components/pages/YankongImgs/info";
+import BookList from "./components/pages/Book/list";
+import ChapterList from "./components/pages/Chapter/list";
+import ChapterInfo from "./components/pages/Chapter/info";
+import VideoList from "./components/pages/Video/list";
 
 
 // Each logical "route" has two components, one for
@@ -46,6 +50,27 @@ const routes = [
 			}
 		]
 	},
+	{
+		path: '/book/list/:page',
+		component : BookList,
+		routes : [
+			{
+				path: '/book/chapter/list/:book_id',
+				component: ChapterList
+			},
+			{
+				path: '/book/chapter/info/:chapter_id',
+				component: ChapterInfo			
+			}
+		]
+	},
+	{
+		path: '/video/list/:page',
+		component: VideoList,
+		routes: [
+			
+		]
+	}
 ];
 
 /**渲染路由组件 */
