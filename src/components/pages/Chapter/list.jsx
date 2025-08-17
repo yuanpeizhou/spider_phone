@@ -99,8 +99,8 @@ export default class ChapterList extends React.Component {
         </div>
         {this.state.list.map((item,index) => {
           return <div key={index} className="chapter_list">
-            <div className="chapter_box" onClick={this.goInfo.bind(this,item.key)}>
-              <span className="chapter_name">{item.chapter_name}</span>
+            <div className="chapter_box">
+              <a href={'/book/chapter/info/' + item.key} target="_blank"><span className="chapter_name">{item.chapter_name}</span></a>
             </div>
           </div>
         })}

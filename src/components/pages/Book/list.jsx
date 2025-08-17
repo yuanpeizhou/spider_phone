@@ -49,7 +49,7 @@ export default class BookList extends React.Component {
     localStorage.setItem('book_keyword',this.state.searchData.keyword)
     localStorage.setItem('book_id', book_id)
     localStorage.removeItem('chapter_page')
-    this.props.history.push({pathname:'/book/chapter/list/' + book_id ,query:{book_id: book_id}})
+    // this.props.history.push({pathname:'/book/chapter/list/' + book_id ,query:{book_id: book_id}})
   }
   goBack(){
     this.props.history.push({pathname:'/'})
@@ -119,10 +119,12 @@ export default class BookList extends React.Component {
         {this.state.list.map((item,index) => {
           return <div key={index} className="book_list">
             <div className="book_box" onClick={this.goChapter.bind(this,item.key)}>
-              <div className="book_box_header">
-                <span className="book_name">{item.book_name}</span>
-                <span className="book_last_update_date">{item.last_update_date}</span>                
-              </div>
+              <a href={'/book/chapter/list/' + item.key} target="_blank">
+                <div className="book_box_header">
+                  <span className="book_name">{item.book_name}</span>
+                  <span className="book_last_update_date">{item.last_update_date}</span>                
+                </div>
+              </a>
               <div className="book_box_foot">
                 <span className="book_author">作者：{item.author_name}</span>
                 <span className="book_words">字数：{item.book_words}</span>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Pagination,Input,Button } from 'antd';
-import {getVideoList, img_host} from '../../../api';
+import {getVideoList, video_host} from '../../../api';
+import Hls from 'hls.js';
 
 const { Search } = Input;
 export default class VideoList extends React.Component {
@@ -18,7 +19,7 @@ export default class VideoList extends React.Component {
     this.state = {
       list: [],
       current: img_id ? img_id : 1,
-      pageSize : 10,
+      pageSize : 5,
       total : 1,
       searchData: {
         keyword : storeKeyword ? storeKeyword : ''
@@ -27,15 +28,13 @@ export default class VideoList extends React.Component {
 
     localStorage.removeItem('img_keyword')
 
-    // console.log(this.state.current)
     this.loadData = this.loadData.bind(this);
     this.changePage = this.changePage.bind(this)
-    this.changePage = this.changePage.bind(this)
     this.onSearch = this.onSearch.bind(this)
-    // this.goInfo = this.goInfo.bind(this)
   }
   componentDidMount(){
-    console.log('当前页',this.state.current)
+    const _this = this 
+    // 加载数据
     this.loadData(this.state.current ? this.state.current : 1)
   }
   /**翻页 */
@@ -58,7 +57,7 @@ export default class VideoList extends React.Component {
     this.props.history.push({pathname:'/'})
   }
   /*加载数据*/
-  loadData(current = 1,pageSize = 10,isInit = true){
+  loadData(current = 1,pageSize = 5,isInit = true){
     const _this = this 
     const params = {
       page: current,
@@ -67,23 +66,37 @@ export default class VideoList extends React.Component {
       keyword: this.state.searchData.keyword
     }
     getVideoList(params,function(res){
-        console.log(res)
       const data = res.data.map((item , index) => {
         var temp = []
         temp['key'] = item.id
         temp['name'] = item.name
         temp['cover'] = item.web_cover
-        temp['video_url'] = img_host + item.local_url
+        temp['video_url'] = video_host + item.local_url
         return temp
       })
 
+      
       _this.setState({
         list : data,
         current : res.current_page,
         pageSize : res.per_page,
         total: res.total
+      }, () => {
+        // 视频加载完后使用hls加载m3u8
+        _this.state.list.map((item, index) => {
+          _this.initHlsPlayer(item)
+        })
       });
     })
+  }
+  initHlsPlayer(item) {
+    const video = document.querySelector('#video' + item.key);
+    const hls = new Hls();
+    hls.loadSource(item.video_url);
+    hls.attachMedia(video);
+    // hls.on(Hls.Events.MANIFEST_PARSED, () => {
+    //   video.play();
+    // });
   }
   onSearch(e){
     this.loadData()
@@ -115,9 +128,8 @@ export default class VideoList extends React.Component {
         </div>
         {this.state.list.map((item,index) => {
           return <div key={index} className="video_box" onClick={this.goInfo.bind(this,item.key)}>
-            <h1>{item.name}</h1>
-            <video src={item.video_url} poster={item.cover} className="video_item"  controls></video>
-            
+            <h1 onClick={this.initHlsPlayer.bind(this, item)}>{item.name}</h1>
+            <video  id={"video" + item.key} poster={item.cover}  className="video_item"  controls></video>
             {/* <div className="imgs_img_list">
               {
                 item.img_list.map((img_item,img_index) => {

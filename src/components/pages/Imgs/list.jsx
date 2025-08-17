@@ -52,7 +52,8 @@ export default class ImgsList extends React.Component {
   goInfo(id){
     localStorage.setItem('img_page',this.state.current)
     localStorage.setItem('img_keyword',this.state.searchData.keyword)
-    this.props.history.push({pathname:'/imgs/info' + '/' + id ,query:{id: id}})
+    window.open('imgs/info/' + id, "_blank")
+    // this.props.history.push({pathname:'/imgs/info' + '/' + id ,query:{id: id}})
   }
   goBack(){
     this.props.history.push({pathname:'/'})
@@ -114,7 +115,7 @@ export default class ImgsList extends React.Component {
         </div>
         {this.state.list.map((item,index) => {
           return <div key={index} className="rose_box" onClick={this.goInfo.bind(this,item.key)}>
-            <h1 className="rose_name" onClick={this.goInfo.bind(this,item.key)}>{item.name}({item.number})</h1>
+            <h1 className="rose_name"><a href={'/imgs/info/' + item.key} target="_blank">{item.name}({item.number})</a></h1>
             <div className="imgs_img_list">
               {
                 item.img_list.map((img_item,img_index) => {

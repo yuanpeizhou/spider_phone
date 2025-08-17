@@ -4,6 +4,7 @@ import axios from 'axios'
 const api_host_local = 'http://127.0.0.1/book_spider/public/'
 const api_host_company = 'http://book_api.zhouyuanpei.top:8585/index.php/api/'
 export const img_host = 'http://source.zhouyuanpei.top:8585/'
+export const video_host = 'http://book_api.zhouyuanpei.top:8585/'
 
 
 function httpRequest(url,method = 'get',params,charset,callback){
